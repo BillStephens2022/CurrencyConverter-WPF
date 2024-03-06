@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34607.119
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CurrencyConverter-WPF", "CurrencyConverter-WPF\CurrencyConverter-WPF.csproj", "{158126E1-62C2-4887-AACD-1A8AFB71C900}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0148F543-881A-4CA1-80DF-11C440ED6B2B}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{158126E1-62C2-4887-AACD-1A8AFB71C900}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{158126E1-62C2-4887-AACD-1A8AFB71C900}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{158126E1-62C2-4887-AACD-1A8AFB71C900}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{158126E1-62C2-4887-AACD-1A8AFB71C900}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D355DC87-C25A-4D5F-9A45-5A7F7219553A}
+	EndGlobalSection
+EndGlobal
