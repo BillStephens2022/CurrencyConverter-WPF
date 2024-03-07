@@ -108,7 +108,17 @@ namespace CurrencyConverter_WPF
 
         private void Clear_Click(object sender, RoutedEventArgs e) 
         {
+            txtCurrency.Text = string.Empty;
+            if (cmbFromCurrency.Items.Count > 0)
+            {
+                cmbFromCurrency.SelectedIndex = 0;
+            }
+            if (cmbToCurrency.Items.Count > 0)
+            {
+                cmbToCurrency.SelectedIndex = 0;
+            }
             lblCurrency.Content = "";
+            txtCurrency.Focus();
         }
       
         private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
