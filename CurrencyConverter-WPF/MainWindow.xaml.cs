@@ -23,6 +23,22 @@ namespace CurrencyConverter_WPF
         public MainWindow()
         {
             InitializeComponent();
+            lblCurrency.Content = "Hello World";
+        }
+
+        private void Convert_Click(object sender, RoutedEventArgs e)
+        {
+            lblCurrency.Content = "Convert button clicked!";
+        }
+
+        private void Clear_Click(object sender, RoutedEventArgs e) 
+        {
+            lblCurrency.Content = "";
+        }
+      
+        private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
+        {
+
         }
     }
 }
