@@ -179,7 +179,27 @@ namespace CurrencyConverter_WPF
 
         private void btnSave_Click(object sender, RoutedEventArgs e) 
         { 
+            try
+            {
+                if (txtAmount.Text == null || txtAmount.Text.Trim() == "")
+                {
+                    MessageBox.Show("Please enter amount", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+                    txtAmount.Focus();
+                    return;
+                }
+                else if (txtCurrencyName == null || txtCurrencyName.Text.Trim() == "")
+                {
+                    MessageBox.Show("Please enter currency name", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+                    txtCurrencyName.Focus();
+                    return;
+                }
 
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void btnCancel_Click(object sender, RoutedEventArgs e) 
