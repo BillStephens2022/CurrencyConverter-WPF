@@ -18,3 +18,5 @@ C:\Users\two4o\Desktop\C# Development\CurrencyConverter-WPF\CurrencyConverter-WP
 C:\Users\two4o\Desktop\C# Development\CurrencyConverter-WPF\CurrencyConverter-WPF\obj\Debug\Currency.D84A219F.Up2Date
 C:\Users\two4o\Desktop\C# Development\CurrencyConverter-WPF\CurrencyConverter-WPF\obj\Debug\CurrencyConverter-WPF.exe
 C:\Users\two4o\Desktop\C# Development\CurrencyConverter-WPF\CurrencyConverter-WPF\obj\Debug\CurrencyConverter-WPF.pdb
+C:\Users\two4o\Desktop\C# Development\CurrencyConverter-WPF\CurrencyConverter-WPF\bin\Debug\Database\CurrencyConverter.mdf
+C:\Users\two4o\Desktop\C# Development\CurrencyConverter-WPF\CurrencyConverter-WPF\bin\Debug\Database\CurrencyConverter_log.ldf
