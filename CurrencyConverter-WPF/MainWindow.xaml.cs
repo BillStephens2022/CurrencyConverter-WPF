@@ -37,6 +37,7 @@ namespace CurrencyConverter_WPF
         {
             InitializeComponent();
             BindCurrency();
+            GetData();
         }
 
         private void mycon()
@@ -202,7 +203,7 @@ namespace CurrencyConverter_WPF
                         {
                             mycon();
                             DataTable dt = new DataTable();
-                            cmd = new SqlCommand("UPDATE Currency_Master SET Amount = @Amount, CurrencyName WHERE Id = @id", con);
+                            cmd = new SqlCommand("UPDATE Currency_Master SET Amount = @Amount, CurrencyName = @CurrencyName WHERE Id = @Id", con);
                             cmd.CommandType = CommandType.Text;
                             cmd.Parameters.AddWithValue("@Id", CurrencyId);
                             cmd.Parameters.AddWithValue("@Amount", txtAmount.Text);
@@ -239,16 +240,18 @@ namespace CurrencyConverter_WPF
         }
 
         private void btnCancel_Click(object sender, RoutedEventArgs e) 
-        { 
-
+        {
+            try
+            {
+                ClearMaster();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
-        private void dgvCurrency_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e) 
-        { 
-        
-        }
-
-        private void ClearMaster() 
+        private void ClearMaster()
         {
             try
             {
@@ -259,7 +262,8 @@ namespace CurrencyConverter_WPF
                 CurrencyId = 0;
                 BindCurrency();
                 txtAmount.Focus();
-            } catch (Exception ex) 
+            }
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
@@ -299,6 +303,69 @@ namespace CurrencyConverter_WPF
             con.Close();
         }
 
+        // DataGrid selected cell changed event
+        private void dgvCurrency_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
+        {
+            try
+            {
+                // Create DataGrid from sender object
+                DataGrid grd = (DataGrid) sender;
 
+                // Create an object for DataRowView
+                DataRowView row_selected = grd.CurrentItem as DataRowView;
+
+                // If row_selected is not null
+                if (row_selected != null)
+                {
+                    // dgvCurrency items count greater than zero
+                    if (dgvCurrency.Items.Count > 0)
+                    {
+                        if (grd.SelectedCells.Count > 0)
+                        {
+                            // Get selected row id column value and set it to the CurrencyId variable
+                            CurrencyId = Int32.Parse(row_selected["Id"].ToString());
+
+                            // DisplayIndex is equal to zero in the Edited cell (column index 0 is the edit/pencil icon column)
+                            if (grd.SelectedCells[0].Column.DisplayIndex == 0)
+                            {
+                                // Get selected row amount column value and set to amount textbox
+                                txtAmount.Text = row_selected["Amount"].ToString();
+
+                                // Get selected row CurrencyName column value and set it to CurrencyName textbox
+                                txtCurrencyName.Text = row_selected["CurrencyName"].ToString();
+                                btnSave.Content = "Update";     //Change save button text Save to Update
+                            }
+
+                            // DisplayIndex is equal to one in the deleted cell (column index 1 is the delete/trash can icon column)
+                            if (grd.SelectedCells[0].Column.DisplayIndex == 1)
+                            {
+                                // Show confirmation dialog box
+                                if (MessageBox.Show("Are you sure you want to delete ?", "Information", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                                {
+                                    mycon();
+                                    DataTable dt = new DataTable();
+
+                                    // Execute delete query to delete record from table using Id
+                                    cmd = new SqlCommand("DELETE FROM Currency_Master WHERE Id = @Id", con);
+                                    cmd.CommandType = CommandType.Text;
+
+                                    // CurrencyId set in @Id parameter and send it in delete statement
+                                    cmd.Parameters.AddWithValue("@Id", CurrencyId);
+                                    cmd.ExecuteNonQuery();
+                                    con.Close();
+
+                                    MessageBox.Show("Data deleted successfully", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+                                    ClearMaster();
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
     }
 }
