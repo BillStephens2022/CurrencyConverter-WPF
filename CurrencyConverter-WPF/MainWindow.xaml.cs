@@ -193,8 +193,44 @@ namespace CurrencyConverter_WPF
                     txtCurrencyName.Focus();
                     return;
                 }
+                else
+                {
+                    if (CurrencyId > 0) // Code for Update Button.  Check if CurrencyId is greater than zero
+                    {
+                        
+                        if (MessageBox.Show("Are you sure you want to update?", "Information", MessageBoxButton.YesNo, MessageBoxImage.Information) == MessageBoxResult.Yes)
+                        {
+                            mycon();
+                            DataTable dt = new DataTable();
+                            cmd = new SqlCommand("UPDATE Currency_Master SET Amount = @Amount, CurrencyName WHERE Id = @id", con);
+                            cmd.CommandType = CommandType.Text;
+                            cmd.Parameters.AddWithValue("@Id", CurrencyId);
+                            cmd.Parameters.AddWithValue("@Amount", txtAmount.Text);
+                            cmd.Parameters.AddWithValue("@CurrencyName", txtCurrencyName.Text);
+                            cmd.ExecuteNonQuery();
+                            con.Close();
 
+                            MessageBox.Show("Data saved successfully", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+                        }
+                    }
+                    else  // Save button code
+                    {
+                        
+                        if (MessageBox.Show("Are you sure you want to update?", "Information", MessageBoxButton.YesNo, MessageBoxImage.Information) == MessageBoxResult.Yes)
+                        {
+                            mycon();
+                            cmd = new SqlCommand("INSERT INTO Currency_Master(Amount, CurrencyName) VALUES(@Amount, @CurrencyName)", con);
+                            cmd.CommandType = CommandType.Text;
+                            cmd.Parameters.AddWithValue("@Amount", txtAmount.Text);
+                            cmd.Parameters.AddWithValue("@CurrencyName", txtCurrencyName.Text);
+                            cmd.ExecuteNonQuery();
+                            con.Close();
 
+                            MessageBox.Show("Data saved successfully", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+                        }
+                    }
+                        ClearMaster();                   
+                }
             }
             catch (Exception ex)
             {
@@ -210,6 +246,57 @@ namespace CurrencyConverter_WPF
         private void dgvCurrency_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e) 
         { 
         
+        }
+
+        private void ClearMaster() 
+        {
+            try
+            {
+                txtAmount.Text = string.Empty;
+                txtCurrencyName.Text = string.Empty;
+                btnSave.Content = "Save";
+                GetData();
+                CurrencyId = 0;
+                BindCurrency();
+                txtAmount.Focus();
+            } catch (Exception ex) 
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void GetData() 
+        {
+            //The method is used for connect with database and open database connection    
+            mycon();
+
+            //Create Datatable object
+            DataTable dt = new DataTable();
+
+            //Write Sql Query for Get data from database table. Query written in double quotes and after comma provide connection    
+            cmd = new SqlCommand("SELECT * FROM Currency_Master", con);
+
+            //CommandType define Which type of command execute like Text, StoredProcedure, TableDirect.    
+            cmd.CommandType = CommandType.Text;
+
+            //It is accept a parameter that contains the command text of the object's SelectCommand property.
+            da = new SqlDataAdapter(cmd);
+
+            //The DataAdapter serves as a bridge between a DataSet and a data source for retrieving and saving data. The Fill operation then adds the rows to destination DataTable objects in the DataSet    
+            da.Fill(dt);
+
+            //dt is not null and rows count greater than 0
+            if (dt != null && dt.Rows.Count > 0)
+            {
+                //Assign DataTable data to dgvCurrency using ItemSource property.   
+                dgvCurrency.ItemsSource = dt.DefaultView;
+            }
+            else
+            {
+                dgvCurrency.ItemsSource = null;
+            }
+            //Database connection Close
+            con.Close();
         }
 
 
